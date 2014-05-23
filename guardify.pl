@@ -55,4 +55,4 @@ open(my $fh, ">$option{source}") or die "$0: could not write `$option{source}'";
 print $fh "#ifndef $newname\n";
 print $fh "#define $newname\n";
 print $fh @lines;
-print $fh "#endif\n";
+print $fh "#endif /* $newname */\n";
