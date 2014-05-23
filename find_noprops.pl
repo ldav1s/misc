@@ -1,4 +1,9 @@
 #!/usr/bin/perl
+#
+# find_noprops.pl -- find files in a subversion working copy that lack properties.
+#
+# Useful for subversion auto-props and commit hooks that check them.
+#
 use strict;
 use warnings;
 
