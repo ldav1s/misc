@@ -1,12 +1,13 @@
 #!/usr/bin/perl -w
 #
-# svn-files-since.pl -- aggregate all files (added, modified, changed) in the specified
-# revision range.
+# svn-files-since.pl -- aggregate all source files files
+# (added, modified, changed) in the specified revision range.
 #
-
+# Mainly useful for determining how a libtool -version number should change.
+#
 use strict;
 use XML::Simple;
-use Data::Dumper;
+#use Data::Dumper;
 
 if ((scalar(@ARGV) == 0)
     or ($ARGV[0] eq '-?')
@@ -50,6 +51,7 @@ my $ref = $xs->XMLin($xmlLog);
 my %alteredFiles = ();
 
 #print Dumper($ref);
+my $source_file_re = qr/\.(?:[sS]|c(?:pp|xx|c)?|h(?:pp|xx|h)?)$/;
 
 foreach my $rev (@{$ref->{'logentry'}}) {
 #    print "revision: " . $rev->{'revision'} . "\n";
@@ -58,7 +60,7 @@ foreach my $rev (@{$ref->{'logentry'}}) {
             foreach my $p (@{$path->{'path'}}) {
                 if ($p->{'kind'} eq 'file') {
                     my $fn = $p->{'content'};
-                    if ($fn =~ /\.([ch]|cpp|hpp|cc)$/) {
+                    if ($fn =~ $source_file_re) {
                         $alteredFiles{$fn} = 1;
                     }
                 }
@@ -66,7 +68,7 @@ foreach my $rev (@{$ref->{'logentry'}}) {
         } else {
             if ($path->{'path'}->{'kind'} eq 'file') {
                 my $fn = $path->{'path'}->{'content'};
-                if ($fn =~ /\.([ch]|cpp|hpp|cc)$/) {
+                if ($fn =~ $source_file_re) {
                     $alteredFiles{$fn} = 1;
                 }
             }
