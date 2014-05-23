@@ -3,6 +3,8 @@
 # newline.pl -- check C sources for violation of section 2.1.1.2 of the ANSI C 1989 standard.
 # Also in Section 5.1.1.2 of the ISO C 1999 standard
 #
+# Optionally fixes files and checks them into subversion.
+#
 use strict;
 use Carp;
 use Getopt::Long;
